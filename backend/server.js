@@ -58,8 +58,18 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`❌ Port ${PORT} is already in use. Stop the existing process or change PORT in your .env file.`);
+        process.exit(1);
+      }
+
+      console.error('❌ Server startup error:', err.message);
+      process.exit(1);
     });
   })
   .catch((err) => {
