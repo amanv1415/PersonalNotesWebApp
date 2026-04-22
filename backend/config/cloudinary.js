@@ -2,6 +2,14 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 
+// Validate required Cloudinary env vars
+const requiredEnvVars = ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'];
+const missing = requiredEnvVars.filter((v) => !process.env[v]);
+if (missing.length > 0) {
+  console.error(`❌ Missing Cloudinary env vars: ${missing.join(', ')}`);
+  process.exit(1);
+}
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
