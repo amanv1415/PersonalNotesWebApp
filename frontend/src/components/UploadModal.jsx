@@ -66,7 +66,7 @@ const UploadModal = ({ isOpen, onClose, onUploadSuccess }) => {
     formData.append('file', file);
 
     try {
-      await api.post('/api/files/upload', formData, {
+      await api.post('/files/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (event) => {
           const pct = Math.round((event.loaded * 100) / event.total);
